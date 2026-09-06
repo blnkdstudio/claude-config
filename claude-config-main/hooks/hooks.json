@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "FILE=$(cat - | jq -r '.tool_input.file_path // .tool_input.filePath // empty' 2>/dev/null); if [ -n \"$FILE\" ] && echo \"$FILE\" | grep -qE '\\.(ts|tsx)$' && [ -f \"tsconfig.json\" ]; then npx tsc --noEmit --pretty 2>&1 | head -50; fi"
+          }
+        ]
+      }
+    ]
+  }
+}
